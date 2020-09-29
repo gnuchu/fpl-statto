@@ -18,7 +18,7 @@ def process_dataframe(df, title):
     html += "<td>" + str(row['second_name'])   + "</td>"
     html += "<td>" + str(row['team'])          + "</td>"
     html += "<td>" + str(row['element_type'])  + "</td>"
-    html += "<td>" + str(row['now_cost'])      + "</td>"
+    html += "<td>" + str(row['now_cost']/10)      + "</td>"
     html += "<td>" + str(row['value'])         + "</td>"
     html += "<td>" + str(row['total_points'])  + "</td>"
     html += "</tr>"
