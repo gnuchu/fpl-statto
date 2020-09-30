@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import requests
+from datetime import datetime
 
 def read_file(path):
   data = ''
@@ -25,20 +26,28 @@ def process_dataframe(df, title):
   
   return html
 
+def date_str():
+  return datetime.now().strftime('%A %d %B %Y %H:%M:%S')
+
+def date_line():
+  html = '<hr/>'
+  html += "<small>Page generated: " + date_str() + "</small>"
+  html += '<hr/>'
+  return html
+
 def table_maker(dataframe, title):
-  html = f"<h2>{title}</h2><br/>" 
+  html = date_line()
+  html += f"<h2>{title}</h2><br/>" 
   html += table_head()
   html += process_dataframe(dataframe, title)
   html += table_foot()
   return html
-
 
 def table_head():
   return read_file('templates/thead.html')
   
 def table_foot():
   return read_file('templates/tend.html')
-
 
 url = 'https://fantasy.premierleague.com/api/bootstrap-static/'
 r = requests.get(url)
@@ -75,6 +84,7 @@ html += table_maker(top_5_gk, 'Goalkeepers')
 html += table_maker(top_5_def, 'Defenders')
 html += table_maker(top_5_mid, 'Midfielders')
 html += table_maker(top_5_fwd, 'Forwards')
+
 
 html += read_file('templates/page_end.html')
 
