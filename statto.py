@@ -3,6 +3,24 @@ import numpy as np
 import requests
 from datetime import datetime
 
+def create_li_item(title, active):
+  html = f'''
+<li class="nav-item">
+    <a href="#{title.lower()}" class="nav-link {active}" data-toggle="tab">{title}</a>
+</li>
+'''
+  return html
+
+def create_tab_content(title, content, active):
+  html = f'''
+<div class="tab-pane fade show {active}" id="{title.lower()}">
+    <p>
+      {content}
+    </p>
+</div>
+'''
+  return html
+
 def read_file(path):
   data = ''
   with open(path) as f:
@@ -10,10 +28,8 @@ def read_file(path):
   
   return data
 
-
 def process_dataframe(df, title):
   html = ''
-  #html += f"<tr><td colspan='6'><strong>{title}</strong></td></tr>"
   for index, row in df.iterrows():
     html += "<tr>"
     html += "<td>" + str(row['second_name'])   + "</td>"
@@ -30,14 +46,13 @@ def date_str():
   return datetime.now().strftime('%A %d %B %Y %H:%M:%S')
 
 def date_line():
-  html = '<hr/>'
-  html += "<small>Page generated: " + date_str() + "</small>"
+  #html = '<hr/>'
+  html = "<small>Page generated: " + date_str() + "</small>"
   html += '<hr/>'
   return html
 
 def table_maker(dataframe, title):
-  html = date_line()
-  html += f"<h2>{title}</h2><br/>" 
+  html = f"<h4>{title}</h4><br/>" 
   html += table_head()
   html += process_dataframe(dataframe, title)
   html += table_foot()
@@ -79,12 +94,30 @@ top_5_mid.to_csv('csv/mid.csv')
 top_5_fwd.to_csv('csv/fwd.csv')
 
 html = read_file('templates/page_start.html')
+html += date_line()
 
-html += table_maker(top_5_gk, 'Goalkeepers')
-html += table_maker(top_5_def, 'Defenders')
-html += table_maker(top_5_mid, 'Midfielders')
-html += table_maker(top_5_fwd, 'Forwards')
+html += "<ul class='nav nav-tabs'>"
+html += create_li_item('Goalkeepers', "active")
+html += create_li_item('Defenders', "")
+html += create_li_item('Midfielders', "")
+html += create_li_item('Forwards', "")
+html += "</ul>"
 
+html += "<div class='tab-content'>"
+
+content = table_maker(top_5_gk, 'Goalkeepers')
+html += create_tab_content('Goalkeepers', content, "active")
+
+content = table_maker(top_5_def, 'Defenders')
+html += create_tab_content('Defenders', content, "")
+
+content = table_maker(top_5_mid, 'Midfielders')
+html += create_tab_content('Midfielders', content, "")
+
+content = table_maker(top_5_gk, 'Forwards')
+html += create_tab_content('Forwards', content, "")
+
+html += "</div>"
 
 html += read_file('templates/page_end.html')
 

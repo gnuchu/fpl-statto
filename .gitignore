@@ -1,3 +1,4 @@
 .venv
 index.php
-csv/*
+csv/*.csv
+Untitled.code-workspace
