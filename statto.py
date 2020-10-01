@@ -114,7 +114,7 @@ html += create_tab_content('Defenders', content, "")
 content = table_maker(top_5_mid, 'Midfielders')
 html += create_tab_content('Midfielders', content, "")
 
-content = table_maker(top_5_gk, 'Forwards')
+content = table_maker(top_5_fwd, 'Forwards')
 html += create_tab_content('Forwards', content, "")
 
 html += "</div>"
