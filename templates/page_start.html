@@ -20,7 +20,7 @@
 
   <script>
     $(document).ready(function() {
-      $('.player_info').DataTable({
+      $('.value_table').DataTable({
         paging: false,
         searching: false,
         bInfo: false,
@@ -28,6 +28,25 @@
           [3, "desc"]
         ]
       });
+
+      $('.total_points_table').DataTable({
+        paging: false,
+        searching: false,
+        bInfo: false,
+        order: [
+          [4, "desc"]
+        ]
+      });
+
+      $('.points_per_game_table').DataTable({
+        paging: false,
+        searching: false,
+        bInfo: false,
+        order: [
+          [5, "desc"]
+        ]
+      });
+
     });
   </script>
 
