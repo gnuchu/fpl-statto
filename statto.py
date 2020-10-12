@@ -48,8 +48,8 @@ def process_dataframe(df, title):
     html += "<td>" + str(row['value'])         + "</td>"
     html += "<td>" + str(row['total_points'])  + "</td>"
     html += "<td>" + str(row['points_per_game'])  + "</td>"
-    html += "<td>" + str(row['minutes'][0])  + "</td>"
-    html += "<td>" + str(row['selected_by_percent'][0])  + "%</td>"
+    html += "<td>" + str(row['minutes'])  + "</td>"
+    html += "<td>" + str(row['selected_by_percent'])  + "%</td>"
 
     html += "</tr>"
   
@@ -90,11 +90,9 @@ elements_df = pd.DataFrame(response_json['elements'])
 elements_types_df = pd.DataFrame(response_json['element_types'])
 teams_df = pd.DataFrame(response_json['teams'])
 
-slim_elements_df = elements_df[['first_name', 'second_name','selected_by_percent','team','element_type','minutes','selected_by_percent','now_cost','minutes','transfers_in','value_season','total_points','points_per_game']]
-slim_elements_df['team'] = slim_elements_df.team.map(teams_df.set_index('id').name)
-slim_elements_df['value'] = slim_elements_df.value_season.astype(float)
-slim_elements_df['element_type'] = slim_elements_df.element_type.map(elements_types_df.set_index('id').plural_name_short)
-slim_elements_df.rename(index={0: "id"})
+elements_df['team'] = elements_df.team.map(teams_df.set_index('id').name)
+elements_df['value'] = elements_df.value_season.astype(float)
+elements_df['position'] = elements_df.element_type.map(elements_types_df.set_index('id').plural_name_short)
 
 positions = {
   'GKP': 'Goalkeeper', 
@@ -125,7 +123,7 @@ for sort_item in sort_items:
   tabs_html += "<div class='tab-content'>"
 
   for pos_short, pos_long in positions.items():
-    slim_dataframe = slim_elements_df.loc[slim_elements_df.element_type == pos_short]
+    slim_dataframe = elements_df.loc[elements_df.position == pos_short]
     top5 = slim_dataframe.sort_values(sort_item, ascending=False).head(10)
 
     content = table_maker(top5, pos_long, sort_item)
