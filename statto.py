@@ -39,7 +39,7 @@ def write_file(path, content):
 
 def process_dataframe(df, title):
   html = ''
-  for index, row in df.iterrows():
+  for _, row in df.iterrows():
     html += "<tr>"
     html += "<td>" + str(row['first_name']) + " " + str(row['second_name'])   + "</td>"
     html += "<td>" + str(row['team'])          + "</td>"

@@ -1,3 +1,5 @@
+*.ics
+.DS_Store
 .venv
 index.php
 csv/*.csv
